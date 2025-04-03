@@ -4,24 +4,25 @@ from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 import random
 
-# Carrega a máscara (certifique-se de que "cacto2.png" existe e tenha resolução adequada)
+# Carrega a máscara (certifique-se de que "cacto2.png" está em alta resolução)
 mask = np.array(Image.open("cacto2.png"))
 
-# Lista de expressões (com espaços, sem underscores)
+# Lista de expressões
 palavras = [
-    "estribado", "lapois", "pagar sapo", "vou chegar", "barril", "lá ele", "tô na bruxa", 
-    "meu rei", "areado", "frescar", "na doida", "armaria", "égua", "kiu!", "esparroso", 
-    "apombalado", "peba", "paia", "só quer ser as pregas", "ficar com a gota", "tabacudo", 
-    "pirangueiro", "aperreio", "dispense", "caçar conversa", "ficar bestando", "galalau", 
-    "fazer munganga", "buliçoso", "boy", "boe", "de rocha", "tá ca peste", "vôti", 
-    "cambito", "fuleiragem", "morgado", "mangar", "migué", "ôxe", "tá com a bexiga lixa", 
-    "tá com a bubônica", "torar", "traquino", "vixe", "massa", "brocado", "o raio", "triscar"
+    "ôxe", "caçar conversa", "paia", "lapois", "aí dentro", "migué", "égua",
+    "estribado","lá ele", "aperreio", "fuleiragem", "vixe", "pagar sapo", "tá ca peste", "ficar bestando",  
+    "meu rei", "arreado", "frescar", "na doida", "armaria", "kiu!", "esparroso", 
+    "apombalado", "peba", "só quer ser as pregas", "tá com a gota serena", "tabacudo", 
+    "pirangueiro", "dispense", "galalau", "vou chegar", "barril", "tô na bruxa",
+    "fazer munganga", "buliçoso", "boy", "boe", "de rocha",  "vôti", 
+    "cambito", "morgado", "mangar", "tá com a bexiga lixa", "avexado"
+    "tá com a bubônica", "torar", "traquino", "massa", "brocado", "o raio", "triscar",
 ]
 
-# Cria um dicionário de frequências (todas com a mesma frequência para este exemplo)
-frequencias = {expressao: 100 for expressao in palavras}
+# Dicionário de frequências
+frequencias = {expressao: 120 for expressao in palavras}
 
-# Paleta de cores (tons de verde, marrom e amarelo)
+# Paleta de cores
 cores = [
     "#3A5F0B", "#6B8E23", "#A0522D", "#8B4513", "#D2B48C",
     "#9ACD32", "#556B2F", "#BDB76B", "#CD853F", "#FFD700"
@@ -34,25 +35,25 @@ def cor_aleatoria(palavra, font_size, position, orientation, random_state, **kwa
         cores_palavras[palavra] = random.choice(cores)
     return cores_palavras[palavra]
 
-# Gera a nuvem de palavras com resolução 4K (3840x2160 pixels)
+# Gera a nuvem de palavras com qualidade máxima (600 DPI - 7020 × 9900 pixels)
 wordcloud = WordCloud(
     background_color="white",
-    max_words=1000,
+    max_words=2000,
     mask=mask,
-    contour_width=0,
+    contour_width=2,
     collocations=False,
     font_path=None,
     color_func=cor_aleatoria,
-    width=3840,   # Largura em pixels para 4K
-    height=2160,  # Altura em pixels para 4K
-    scale=1       # Ajuste se necessário
+    width=7020,  # 600 DPI largura para folha A3
+    height=9900,  # 600 DPI altura para folha A3
+    scale=2  # Multiplica a densidade para garantir mais nitidez
 ).generate_from_frequencies(frequencias)
 
-# Salva a imagem gerada em 4K
-wordcloud.to_file("wordcloud_4k.png")
+# Salva a imagem em alta resolução para impressão
+wordcloud.to_file("wordcloud_A3_600dpi.png")
 
 # Exibe a imagem (opcional)
-plt.figure(figsize=(19.2, 10.8))  # Tamanho em polegadas para aproximar 4K em dpi=200 (ajuste se necessário)
+plt.figure(figsize=(19.2, 27.5))  # Mantém a proporção A3
 plt.imshow(wordcloud, interpolation="bilinear")
 plt.axis("off")
 plt.show()
